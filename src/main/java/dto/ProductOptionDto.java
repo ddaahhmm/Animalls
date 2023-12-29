@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
 public class ProductOptionDto {
 	private int optionId;
 	private int productId;

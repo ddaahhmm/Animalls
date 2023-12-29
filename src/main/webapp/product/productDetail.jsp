@@ -204,7 +204,7 @@
 					
 					<div class="totalPrice">
 						총 금액
-						<span class="total"><strong>{{totalPrice}}(0개)</strong></span>
+						<span class="total"><strong>{{totalPrice}}({{pId}}개)</strong></span>
 					</div>
 					
 					<div class="btnWrap">
