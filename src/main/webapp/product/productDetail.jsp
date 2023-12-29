@@ -164,22 +164,29 @@
 							</thead>
 							
 							<tbody class="displaynone">
-								<td>
+								<tr>
+									<td>
 									 <%--옵션 선택한 상품명 --%>
-								</td>
-								<td>
-									<span class="quantity">
-										<input id="quantity" name="quantity_detail" type="text" v-model="count">
-										<strong>{{count}}</strong>
-										<button @click="plus" class="quantity_up"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></a></button>
-										<button @click="minus" class="quantity_down"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></a></button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="quantity">
+											<input id="quantity" name="quantity_detail" type="text" v-model="count">
+											<strong>{{count}}</strong>
+											<button @click="plus" class="quantity_up"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></a></button>
+											<button @click="minus" class="quantity_down"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></a></button>
+											
 										
-									
-									</span>
-								</td>
-								<td>
-									 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
-								</td>
+										</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
