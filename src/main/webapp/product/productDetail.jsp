@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.ProductOptionDao"%>
@@ -14,7 +15,9 @@
 	
 	List<ProductOptionDto> optionList = ProductOptionDao.getInstance().getList();
 	
-
+	List<ProductOptionDto> selected_List = new ArrayList<>();
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -28,14 +31,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-</head>
-<body>
-	<jsp:include page="/include/navbar.jsp">
-		<jsp:param value="index" name="current"/>
-	</jsp:include>
-	
-
-	<style>
+<style>
 		 ul {
       		list-style: none;
    			 }
@@ -51,6 +47,15 @@
 		    flex-wrap: wrap;
   			}
 	</style>
+</head>
+
+<body>
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="index" name="current"/>
+	</jsp:include>
+	
+
+	
 	
 	<div class="wrap">
 		<div class="container">
@@ -72,7 +77,7 @@
 						</button>
 					
 				</div>
-				
+				</div>
 				<div class="infoArea">
 					<%--경로 --%>
 					<div>
@@ -81,13 +86,7 @@
 							<li><a href="${pageContext.request.contextPath}/product/productList.jsp">제품</a>
 						</ul>
 					</div>
-					
-					
-					
-					
-					
-				
-					
+
 					
 					<div class="totalProducts">
 					</div>
@@ -95,7 +94,7 @@
 					<div class="priceArea">
 						<%if(dto.getSalePrice() != 0){ %>
 							<p><%=dto.getSalePrice() %><span>원</span></p>
-							<p class="prd_price"><strike><%=dto.getOrgPrice() %></strike></p> <%--여기에 가운데 취소표시(class) --%>
+							<p class="prd_price"> <strike><%=dto.getOrgPrice() %></strike> </p> <%--여기에 가운데 취소표시(class) --%>
 						
 						
 						<%}else{ %> 
@@ -120,26 +119,33 @@
 					</div>
 					
 
-					<div class="optionInfo">
+					<div class="optionInfo" id="app">
 						<table border="1" summary class="xans-element- xans-product xans-product-option xans-record-">
 							<caption>상품 옵션</caption>
 							<tbody>
 							 	<tr>
 							 		
 							 		<td>
-							 			<select id="tmp" option_style="select" required="true" >
-							 				<option value="*" selected >-[필수] 같이 구매하기 선택-</option>
-							 				<option value="**" disabled>----------------------------------</option>
-							 				<option value="non_select">선택 안함</option>
-							 				<%for(ProductOptionDto tmp:optionList){ 
-							 					if(tmp.getProductId()==productId || tmp.getProductId()==0){%>
-							 				
-							 					<option value="<%=tmp.getOptionId()%>"><%=tmp.getDescription() %>(+<%=tmp.getAdditionalPrice() %>)</option>
-							 				
-							 					<%}%>
-							 			<%} %>
-							 			</select>
 							 		
+							 			<form action ="" method="get" class="product_detail_option_select" > <!-- cart.jsp , payment.jsp 보내기  -->
+							 				<select id="tmp"  @change="onSelected" >
+								 				<option value="*" selected >-[필수] 같이 구매하기 선택-</option>
+								 				<option  disabled>----------------------------------</option>
+									 				<%for(ProductOptionDto tmp:optionList){ %>
+									 					<% if(tmp.getProductId()==productId || tmp.getProductId()==0){%>
+									 				
+									 					<option value="<%=tmp.getOptionId()%>/<%=tmp.getAdditionalPrice()%>/<%=tmp.getProductId() %>/<%=tmp.getDescription() %>" >
+									 						<%=tmp.getDescription() %> (+ <%=tmp.getAdditionalPrice() %> )
+									 					
+									 					</option>
+
+									 					
+									 					<%}%>
+									 			<%} %>
+											 			
+							 				</select>
+							 			</form>
+							 			
 							 		</td>
 							 	
 							 	</tr>
@@ -149,10 +155,9 @@
 					
 
 					
-					<div class="totalProducts" id="optionProducts">
-						<table border="1" summary>
+					<div class="totalProducts" id="optionProducts" >
+						<table border="1">
 							<colgroup>
-								<col style="width:284px;">
 							</colgroup>
 							
 							<thead>
@@ -166,6 +171,31 @@
 							<tbody class="displaynone">
 								<tr>
 									<td>
+<<<<<<< HEAD
+										 <%--옵션 선택한 상품명 --%>
+										 <span>{{des}}<br/></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<span class="quantity" >
+											<input id="quantity" name="quantity_detail" type="text" >
+											<strong></strong>
+											<button @click="plus" class="quantity_up" ><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></button>
+											<button @click="minus" class="quantity_down"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></button>
+										</span>
+										<strong>{{count}}</strong>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<strong>{{totalPrice}}</strong>원 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
+										<strong>{{oId}}</strong>
+										<strong>{{pId}}</strong>
+										<strong>{{des}}</strong>
+=======
 									 <%--옵션 선택한 상품명 --%>
 									</td>
 								</tr>
@@ -177,7 +207,10 @@
 											<button @click="plus" class="quantity_up"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></a></button>
 											<button @click="minus" class="quantity_down"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></a></button>
 											
+>>>>>>> refs/heads/main
 										
+<<<<<<< HEAD
+=======
 										</span>
 									</td>
 								</tr>
@@ -185,6 +218,7 @@
 								<tr>
 									<td>
 										 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
+>>>>>>> refs/heads/main
 									</td>
 								</tr>
 							</tbody>
@@ -194,7 +228,7 @@
 					
 					<div class="totalPrice">
 						총 금액
-						<span class="total" ><strong>(0개)</strong></span>
+						<span class="total"><strong>{{totalPrice}}({{pId}}개)</strong></span>
 					</div>
 					
 					<div class="btnWrap">
@@ -205,29 +239,28 @@
 					
 				</div>
 			
+			
+			
 				<div class="detail_li"> <%--같은 페이지 내에서 이동 --%>
-					<li>
-						<a href="">상세정보</a> 
-					</li>
-					
-					<li>
-						<a href="">리뷰</a>
-					</li>
-					
-					<li>
-						<a href="">상품 Q&A</a>
-					</li>
-					
+					<ul>
+						<li><a href="">상세정보</a></li>
+						
+						<li><a href="">리뷰</a></li>
+						
+						<li><a href="">상품 Q&A</a></li>
+					</ul>
 				</div>
 			<div class="xans-element- xans-product xans-product-additional">
-				<ul class="detail_menu" style="display:none;"> <%--첫 화면에서 아래로 스크롤 할 때 나옴 --%>
+				<div class="detail_menu" style="display:none;"> <%--첫 화면에서 아래로 스크롤 할 때 나옴 --%>
 					<div class="detail_list">
-						<li> <a href="">상세정보</a> </li>
-						<li> <a href="">리뷰<span>()</span></a> </li>
-						<li> <a href="">상품 Q&A<span>()</span></a> </li>
-						<li> <a href="">상품 구매 안내</a> </li>
+						<ul>
+							<li> <a href="">상세정보</a> </li>
+							<li> <a href="">리뷰<span>()</span></a> </li>
+							<li> <a href="">상품 Q&A<span>()</span></a> </li>
+							<li> <a href="">상품 구매 안내</a> </li>
+						</ul>
 					</div>
-				</ul>
+				</div>
 				
 				<div id="product_details" class="ec-base-tab gFlex">
 					<div class="menu_area">
@@ -245,8 +278,8 @@
 								<a href="#product_info">상품구매안내</a>
 							</li>
 						</ul>
-					
 					</div>
+					
 					<div class="cont">
 						<p align="center"><img src="https://okdoctordog.com/openImg/2022/notice/notice_all_officialmark.png"></p>
 						<p align="center"><img src="https://hucheum.openhost.cafe24.com/openImg/2022/food/grainfree/detail_food_gf_tuna.jpg"></p>
@@ -260,7 +293,7 @@
 						<div class="detail_tab_tit">
 						TEST
 						</div>
-						<div class="crema-product-reviews crema-applied" data-widget-id="2" data-installation-id="22" data-product-code="670" data-install-method="smart" data-applied-widgets="[&quot;.crema-product-reviews&quot;]" style="margin-top: 32px; margin-bottom: 32px;"><iframe id="crema-product-reviews-2" src="https://review1.cre.ma/okdoctordog.com/products/reviews?product_code=670&amp;iframe_id=crema-product-reviews-2&amp;widget_id=2&amp;widget_style=&amp;app=0&amp;parent_url=https%3A%2F%2Fokdoctordog.com%2Fproduct%2F%25EB%258B%25A5%25ED%2584%25B0%25EB%258F%2585-%25EA%25B7%25B8%25EB%25A0%2588%25EC%259D%25B8%25ED%2594%2584%25EB%25A6%25AC-%25EC%25B0%25B8%25EC%25B9%2598-%25EC%2582%25AC%25EB%25A3%258C-16kg%2F670%2Fcategory%2F278%2Fdisplay%2F1%2F&amp;nonmember_token=&amp;secure_device_token=V2fa89584a4963c512fa6a0c471fec954b315b553e04a818122d04aa6d39e9b39175b0153b49f59ac3a27ad07aa18e130f&amp;iframe=1" height="0" width="100%" scrolling="no" allowtransparency="true" frameborder="0" name="crema-product-reviews-2-1703338154709" style="display: block; visibility: visible; height: 1996px;"></iframe>
+						<div class="crema-product-reviews crema-applied" data-widget-id="2" data-installation-id="22" data-product-code="670" data-install-method="smart" data-applied-widgets="[&quot;.crema-product-reviews&quot;]" style="margin-top: 32px; margin-bottom: 32px;"><iframe id="crema-product-reviews-2" src="https://review1.cre.ma/okdoctordog.com/products/reviews?product_code=670&amp;iframe_id=crema-product-reviews-2&amp;widget_id=2&amp;widget_style=&amp;app=0&amp;parent_url=https%3A%2F%2Fokdoctordog.com%2Fproduct%2F%25EB%258B%25A5%25ED%2584%25B0%25EB%258F%2585-%25EA%25B7%25B8%25EB%25A0%2588%25EC%259D%25B8%25ED%2594%2584%25EB%25A6%25AC-%25EC%25B0%25B8%25EC%25B9%2598-%25EC%2582%25AC%25EB%25A3%258C-16kg%2F670%2Fcategory%2F278%2Fdisplay%2F1%2F&amp;nonmember_token=&amp;secure_device_token=V2fa89584a4963c512fa6a0c471fec954b315b553e04a818122d04aa6d39e9b39175b0153b49f59ac3a27ad07aa18e130f&amp;iframe=1" height="0" width="100%"  name="crema-product-reviews-2-1703338154709" style="display: block; visibility: visible; height: 1996px;"></iframe>
 						TEST
 						</div>
 					</div>
@@ -276,11 +309,11 @@
 						</div>
 						
 						<div class="xans-element- xans-product xans-product-qna">
-							<a name="use_qna"></a>
+							<a class="use_qna"></a>
 							<p class="noAccess displaynone">글읽기 권한 X</p>
 							
 							<div class="ec-base-table typeList">
-								<table border="1" summary class>
+								<table border="1" >
 									<caption>상품 Q&A</caption>
 									<colgroup>
 										<col style="width:120px">
@@ -336,8 +369,8 @@
 						<a href="#product_info">상품구매 안내</a>
 					</div>
 					
-					<div df-banner-code="pc-detail-info" class="df-bannermanager df-bannermanger-pc-detail-info">
-						<a href="#none" target df-banner-clone>
+					<div class="df-bannermanager df-bannermanger-pc-detail-info">
+						<a href="#none" >
 							<img src="https://okdoctordog.com/web/upload/NNEditor/20220721/692a3b704511e13986863c6163bfad5f.png">
 							
 						</a>
@@ -349,45 +382,72 @@
 			</div>
 			
 				<div class="detail_li"> <%--같은 페이지 내에서 이동 --%>
-					<li>
-						<a href="">상세정보</a> 
-					</li>
-					
-					<li>
-						<a href="">리뷰</a>
-					</li>
-					
-					<li>
-						<a href="">상품 Q&A</a>
-					</li>
-					
+					<ul>
+						<li>
+							<a href="">상세정보</a> 
+						</li>
+						
+						<li>
+							<a href="">리뷰</a>
+						</li>
+						
+						<li>
+							<a href="">상품 Q&A</a>
+						</li>
+					</ul>
 				</div>
 			
 			</div>
 		</div>
 		
 	</div>
-	<script>
-	
 		
-						new Vue({
-							el:'.quantity',
-							data:{
-								count:0,
-								
-							},
-							methods:{
-								plus:function(){
-									this.count++;
-									
-								},
-								minus:function(){
-									this.count--;
-									
-								}
-							}
-						});
-					</script>
+		
+		
+	</div>
+	<script>
+    new Vue({
+        el: '#app',
+        data: {
+        	//총가격 (기본가격 + 옵션가격)
+           	totalPrice:<%=dto.getSalePrice()%>,
+			//optionId productId 
+			oId :0,
+			pId :0,
+			des : "",
+           	count:0
+ 			
+        },
+        methods: {
+          	onSelected(e){
+          		// "상품번호/가격"
+          		const value=e.target.value;
+          	
+          		//option Id | 가격 | product Id | 상품이름
+          		const optionNum = Number(value.split("/")[0]);
+          		const price= Number(value.split("/")[1]);
+          		const productNum = Number(value.split("/")[2]);
+				const descript = value.split("/")[3]; 
+				
+          		this.oId += optionNum;
+          		this.totalPrice += price;
+          		this.pId += productNum;
+          		this.des += descript;
+          	},
+          	plus(){
+				this.count++;
+			},
+			minus(){
+				if(count > 0){
+				this.count--;
+				}
+			}
+        }
+    });
+    
+   
+	</script>
+	
 	<jsp:include page="/include/footer.jsp">
 		<jsp:param value="index" name="current"/>
 	</jsp:include>

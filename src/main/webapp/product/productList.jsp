@@ -10,7 +10,7 @@
 	
 	String category = request.getParameter("category");
 	if(category!=null){
-		list = list.stream().filter(c->c.getCategory().equals(category)).collect(Collectors.toList());
+		list = list.stream().filter(c->category.equals(c.getCategory())).collect(Collectors.toList());
 	}
 %>
 <!DOCTYPE html>
