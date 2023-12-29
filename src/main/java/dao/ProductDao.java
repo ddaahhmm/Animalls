@@ -121,7 +121,7 @@ public class ProductDao {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문
 			String sql = "INSERT INTO PRODUCT"
-					+ " (product_id, seller_id, category, title, description, orgPrice, salePrice, salesState, thumbnail)"
+					+ " (product_id, seller_id, category, title, description, org_price, sale_price, sales_state, thumbnail)"
 					+ " VALUES(PRODUCT_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩 할 내용이 있으면 바인딩
