@@ -46,6 +46,9 @@
 		    display: flex;
 		    flex-wrap: wrap;
   			}
+  		#optionProducts{
+  			width:1000px;
+  		}
 	</style>
 </head>
 
@@ -94,7 +97,7 @@
 					<div class="priceArea">
 						<%if(dto.getSalePrice() != 0){ %>
 							<p><%=dto.getSalePrice() %><span>원</span></p>
-							<p class="prd_price"> <strike><%=dto.getOrgPrice() %></strike> </p> <%--여기에 가운데 취소표시(class) --%>
+							<p class="prd_price"> <del><%=dto.getOrgPrice() %></del> </p> <%--여기에 가운데 취소표시(class) --%>
 						
 						
 						<%}else{ %> 
@@ -103,7 +106,7 @@
 					</div>
 					
 					<div class="basicInfo">
-						<table border="1" summary><%--옵션 (적립금있음 나중에추가) --%>
+						<table border="1"><%--옵션 (적립금있음 나중에추가) --%>
 							<caption>기본 정보</caption>
 							<tbody>
 								<tr>
@@ -120,7 +123,7 @@
 					
 
 					<div class="optionInfo" id="app">
-						<table border="1" summary class="xans-element- xans-product xans-product-option xans-record-">
+						<table border="1" class="xans-element- xans-product xans-product-option xans-record-">
 							<caption>상품 옵션</caption>
 							<tbody>
 							 	<tr>
@@ -128,21 +131,18 @@
 							 		<td>
 							 		
 							 			<form action ="" method="get" class="product_detail_option_select" > <!-- cart.jsp , payment.jsp 보내기  -->
-							 				<select id="tmp"  @change="onSelected" >
+							 				<select id="tmp" @change="onSelected">
 								 				<option value="*" selected >-[필수] 같이 구매하기 선택-</option>
-								 				<option  disabled>----------------------------------</option>
+								 				<option disabled>----------------------------------</option>
 									 				<%for(ProductOptionDto tmp:optionList){ %>
 									 					<% if(tmp.getProductId()==productId || tmp.getProductId()==0){%>
 									 				
-									 					<option value="<%=tmp.getOptionId()%>/<%=tmp.getAdditionalPrice()%>/<%=tmp.getProductId() %>/<%=tmp.getDescription() %>" >
+									 					<option id="opt_<%= tmp.getOptionId() %>" value="<%=tmp.getOptionId()%>/<%=tmp.getAdditionalPrice()%>/<%=tmp.getProductId() %>/<%=tmp.getDescription() %>" >
 									 						<%=tmp.getDescription() %> (+ <%=tmp.getAdditionalPrice() %> )
-									 					
 									 					</option>
 
-									 					
 									 					<%}%>
 									 			<%} %>
-											 			
 							 				</select>
 							 			</form>
 							 			
@@ -153,11 +153,52 @@
 							</tbody>
 						</table>
 					
-
+					
+					
+					<div v-if="onSelected" style="display:  {{checked}}">
+					     
+					      <table>
+						      <thead>
+						        <tr>
+						          <th>상품명</th>
+						          <th>옵션</th>
+						          <th>가격</th>
+						        </tr>
+						      </thead>
+						      
+						      <tbody>
+						       <tbody class="displaynone">
+								
+								<tr>
+									<td>
+										<strong>{{a}}</strong>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span class="quantity">
+											
+										</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										 
+											<strong>{{c}}</strong>
+											
+									</td>
+								</tr>
+							</tbody>
+						        
+						      </tbody>
+				    </table>
+					</div>
 					
 					<div class="totalProducts" id="optionProducts" >
 						<table border="1">
 							<colgroup>
+							
 							</colgroup>
 							
 							<thead>
@@ -169,48 +210,22 @@
 							</thead>
 							
 							<tbody class="displaynone">
-								<tr>
-									<td>
-<<<<<<< HEAD
-										 <%--옵션 선택한 상품명 --%>
-										 <span>{{des}}<br/></span>
-									</td>
-								</tr>
 								
 								<tr>
 									<td>
-										<span class="quantity" >
-											<input id="quantity" name="quantity_detail" type="text" >
-											<strong></strong>
-											<button @click="plus" class="quantity_up" ><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></button>
-											<button @click="minus" class="quantity_down"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></button>
-										</span>
-										<strong>{{count}}</strong>
-									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<strong>{{totalPrice}}</strong>원 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
-										<strong>{{oId}}</strong>
-										<strong>{{pId}}</strong>
 										<strong>{{des}}</strong>
-=======
+										<strong>{{totalPrice}}</strong>원 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
 									 <%--옵션 선택한 상품명 --%>
 									</td>
 								</tr>
 								<tr>
 									<td>
 										<span class="quantity">
-											<input id="quantity" name="quantity_detail" type="text" v-model="count">
+											<input id="quantity" name="quantity_detail" type="text" v-model="count" >
 											<strong>{{count}}</strong>
 											<button @click="plus" class="quantity_up"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></a></button>
 											<button @click="minus" class="quantity_down"><a><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></a></button>
 											
->>>>>>> refs/heads/main
-										
-<<<<<<< HEAD
-=======
 										</span>
 									</td>
 								</tr>
@@ -218,7 +233,8 @@
 								<tr>
 									<td>
 										 <%--옵션 여러개 있으면 각자 가격 x 갯수 한 값들 출력  --%>
->>>>>>> refs/heads/main
+											<strong>{{totalPrice}}</strong>
+											
 									</td>
 								</tr>
 							</tbody>
@@ -405,6 +421,7 @@
 		
 		
 	</div>
+	
 	<script>
     new Vue({
         el: '#app',
@@ -415,7 +432,14 @@
 			oId :0,
 			pId :0,
 			des : "",
-           	count:0
+           	count:0,
+ 			checked:"none",
+ 			
+ 			a:[],
+ 			b:[],
+ 			c:[]
+ 			
+ 			
  			
         },
         methods: {
@@ -433,13 +457,20 @@
           		this.totalPrice += price;
           		this.pId += productNum;
           		this.des += descript;
+          		
+          		this.a += descript;
+          		this.b += optionNum;
+          		this.c += price;
+          		
+          		 
+          		
           	},
           	plus(){
 				this.count++;
 			},
 			minus(){
 				if(count > 0){
-				this.count--;
+					this.count--;
 				}
 			}
         }
