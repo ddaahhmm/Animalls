@@ -57,6 +57,10 @@
 		<jsp:param value="index" name="current"/>
 	</jsp:include>
 	
+	<script>
+	
+	
+	</script>
 
 	
 	
@@ -131,19 +135,21 @@
 							 		<td>
 							 		
 							 			<form action ="" method="get" class="product_detail_option_select" > <!-- cart.jsp , payment.jsp 보내기  -->
-							 				<select id="tmp" @change="onSelected">
+							 				
+							 				<select id="tmp" @change="onSelected" v-model="selectedOption">
 								 				<option value="*" selected >-[필수] 같이 구매하기 선택-</option>
 								 				<option disabled>----------------------------------</option>
 									 				<%for(ProductOptionDto tmp:optionList){ %>
 									 					<% if(tmp.getProductId()==productId || tmp.getProductId()==0){%>
 									 				
-									 					<option id="opt_<%= tmp.getOptionId() %>" value="<%=tmp.getOptionId()%>/<%=tmp.getAdditionalPrice()%>/<%=tmp.getProductId() %>/<%=tmp.getDescription() %>" >
+									 					<option  id="opt_<%= tmp.getOptionId() %>" value="<%=tmp.getOptionId()%>/<%=tmp.getAdditionalPrice()%>/<%=tmp.getProductId() %>/<%=tmp.getDescription() %>" >
 									 						<%=tmp.getDescription() %> (+ <%=tmp.getAdditionalPrice() %> )
 									 					</option>
 
 									 					<%}%>
 									 			<%} %>
 							 				</select>
+							 				
 							 			</form>
 							 			
 							 		</td>
@@ -153,11 +159,18 @@
 							</tbody>
 						</table>
 					
+					  
 					
-					
-					<div v-if="onSelected" style="display:  {{checked}}">
+						  
+						  
+					<div v-if="onSelected"  style="display:  {{checked}}" class="option_add">
 					     
 					      <table>
+					      		<colgroup>
+					      		 	<col style="width: 300px;">
+					      		 	<col style="width: 300px;">
+					      		 	<col style="width: 300px;">
+					      		</colgroup>
 						      <thead>
 						        <tr>
 						          <th>상품명</th>
@@ -166,33 +179,25 @@
 						        </tr>
 						      </thead>
 						      
-						      <tbody>
-						       <tbody class="displaynone">
-								
-								<tr>
-									<td>
-										<strong>{{a}}</strong>
+						      
+						       <tbody>
+								<tr v-for="(menu,index) in selectedOptions" :key="index"> 
+									<td >
+										<strong>{{menu.name}}</strong><br>
 									</td>
-								</tr>
-								<tr>
+									
 									<td>
 										<span class="quantity">
-											
+											<counter></counter>											</counter>
 										</span>
 									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										 
-											<strong>{{c}}</strong>
-											
+									
+									<td >
+										<strong >{{menu.price}} </strong><br>
 									</td>
 								</tr>
-							</tbody>
-						        
 						      </tbody>
-				    </table>
+				    	</table>
 					</div>
 					
 					<div class="totalProducts" id="optionProducts" >
@@ -244,7 +249,8 @@
 					
 					<div class="totalPrice">
 						총 금액
-						<span class="total"><strong>{{totalPrice}}({{pId}}개)</strong></span>
+						<span class="total"><strong>{{totalPrice}}({{product_num}}개)</strong></span>
+						
 					</div>
 					
 					<div class="btnWrap">
@@ -423,6 +429,34 @@
 	</div>
 	
 	<script>
+	
+	Vue.component("counter", {
+		
+		  template: `
+		    <div>
+		      <strong>{{ count1 }}</strong>
+		      <button @click="onClickedPlus"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_up.gif" alt="수량증가"></button>
+		      <button @click="onClickedMinus"><img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_count_down.gif" alt="수량감소"></button>
+		    </div>
+		  `,
+		  data() {
+		
+		    return {
+		      count1: 1
+		    };
+		  },
+		  methods: {
+		    onClickedPlus() {
+		      this.count1++;
+		    },
+		    onClickedMinus() {
+		      
+		    	  this.count1--;
+		      
+		    }
+		  }
+		});
+	
     new Vue({
         el: '#app',
         data: {
@@ -434,13 +468,14 @@
 			des : "",
            	count:0,
  			checked:"none",
- 			
- 			a:[],
- 			b:[],
- 			c:[]
- 			
- 			
- 			
+
+ 			selectedOption: '',
+ 			selectedOption2: 0,
+ 		    selectedOptions: [],
+ 		    
+ 		   product_num:0
+ 		  
+			
         },
         methods: {
           	onSelected(e){
@@ -458,12 +493,21 @@
           		this.pId += productNum;
           		this.des += descript;
           		
-          		this.a += descript;
-          		this.b += optionNum;
-          		this.c += price;
+          		if(this.selectedOption){
+          			this.selectedOption = descript;
+          			this.selectedOption2 = price;
+          			
+          			const newOption = {
+	          			name : this.selectedOption,
+	          			price : this.selectedOption2
+          			}
+          			this.selectedOptions.push(newOption);
+          			this.selectedOption = '';
+          			this.selectedOption2 = '';
+          		}
+          		this.product_num ++;
           		
-          		 
-          		
+          	
           	},
           	plus(){
 				this.count++;
@@ -473,10 +517,14 @@
 					this.count--;
 				}
 			}
+			    
+		
+			
         }
     });
     
-   
+    
+    
 	</script>
 	
 	<jsp:include page="/include/footer.jsp">
