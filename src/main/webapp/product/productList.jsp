@@ -55,10 +55,15 @@
 			<ul class="prdList">
 				<%for(ProductDto tmp:list){%>
 							<li>
-								<div>
+								<div class=thumbnail>
+									<div class="icon_area">
+									<span><a href="">장바구니</a></span>
+									</div>
+									<div class="prdImg">
 									<a href="${pageContext.request.contextPath}/product/productDetail.jsp?productId=<%=tmp.getProductId()%>">
 										<img src="<%=tmp.getThumbnail() %>" width="100px" height="150px"/>
 									</a>
+									</div>
 								</div>
 								<div class="description">
 								 	<strong class="name">

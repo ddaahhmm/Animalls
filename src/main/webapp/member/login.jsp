@@ -1,3 +1,4 @@
+<%@page import="util.SessionManager"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="dao.MemberDao"%>
 <%@page import="dto.MemberDto"%>
@@ -12,11 +13,8 @@
 	boolean isLoginSuccess = false;
 	if (dto != null) {
 		if (dto.getPassword().equals(password)) {
-			session.setAttribute("memberId", memberId);
-			session.setAttribute("password", password);
-			String asd = (String)session.getAttribute("memberId");
-			String asd2 = (String)session.getAttribute("password");
-			System.out.printf("ID: %s || PWD: %s%n", asd, asd2);
+			SessionManager.getInstance().setMemberId(request, memberId);
+			SessionManager.getInstance().setPassword(request, password);
 			isLoginSuccess = true;
 		}
 	}

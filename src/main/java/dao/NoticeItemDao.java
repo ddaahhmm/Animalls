@@ -181,4 +181,38 @@ public class NoticeItemDao {
 		}
 		return ret;
 	}
+	
+	public NoticeItemDto getOne(int noticeItemId) {
+		String sql = "SELECT writer_id, notice_title, notice_content, created_at "
+				+ "FROM NOTICE_ITEM "
+				+ "WHERE notice_item_id = ?";
+		
+		Connection conn = null; 
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null; 
+		NoticeItemDto dto = null; 
+		try {
+			conn = new DbcpBean().getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, noticeItemId);
+			rs = pstmt.executeQuery(); 
+			if (rs.next()) {
+				String writerId = rs.getString("writer_id");
+				String noticeTitle = rs.getString("notice_title");
+				String noticeContent = rs.getString("notice_content");
+				String createdAt = rs.getString("created_at");
+				dto = new NoticeItemDto(noticeItemId, writerId, noticeTitle, noticeContent, createdAt);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch(Exception e) {
+			}
+		}
+		return dto; 
+	}
 }

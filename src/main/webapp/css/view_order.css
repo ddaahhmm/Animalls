@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+.contain{
+	margin:30px auto;
+}
+
+.contain .topMenu {
+	padding:0;
+	height: 44px;
+	background-color: #ededed;
+}
+.contain .topMenu li {
+	list-style:none;
+	padding:10px 10px;
+	text-align: center;
+	float:left;
+	color:#9f9f9f;
+	border-bottom: black;
+}
+.contain .topMenu li>a{
+	text-decoration: none;
+	color:#9f9f9f;
+	cursor: pointer;
+}
+.active {
+	background-color: cadetblue;
+}
+
+.active>a {
+	color: white!important;
+}
+
+.contain #set1 {
+	clear: both;
+}
+.contain #set2 {
+	clear: both;
+}
+.contain #set3 {
+	clear: both;
+}
+
+#set2, #set3 {
+	display: none;
+}
+
+
+/* 부트스트랩의 플렉스 클래스를 활용한 스타일링 */
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+/* 선택 박스와 날짜 입력 창 간격 조절을 위한 스타일 */
+.head select,
+.head .dateSelect,
+.head input[type="date"] {
+    margin:0 10px;
+}
+
+/* 부트스트랩의 패딩 및 테두리 클래스 추가 */
+.p-3 {
+    padding: 1rem!important;
+}
+
+.border {
+    border: 1px solid #dee2e6!important;
+}
+
+
+/* 리스트 아이템 간격 조절을 위한 스타일 */
+.dateSelect{
+	background-color: #f1f1f1;
+	display: flex;
+	justify-content: flex-start;
+}
+.dateSelect li {
+    cursor: pointer;
+    text-align: center;
+    padding: 2px 10px;
+}
+
+.head .stick {
+	color:#ededed;
+}

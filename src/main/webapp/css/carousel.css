@@ -81,3 +81,12 @@ body {
     margin-top: 7rem;
   }
 }
+@media (max-width: 768px) {
+	.carousel-item {
+		height: 20rem;
+	}
+}
+.carousel-control-prev,
+.carousel-control-next {
+	width:30%;	
+}

@@ -3,21 +3,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	int product_id=Integer.parseInt(request.getParameter("product_id"));
-	ProductDto dto=ProductDao.getInstance().getData(product_id);
+	int productId=Integer.parseInt(request.getParameter("productId"));
+	ProductDto dto=ProductDao.getInstance().getData(productId);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/seller/productUpdate.jsp</title>
+<title>판매자 상품 수정 페이지</title>
 </head>
 <body>
 	<div class="container">
+		<h3>판매자 상품 수정</h3>
 		<form action="${pageContext.request.contextPath}/seller/productUpdate.jsp" method="post">
 			<div>
 				<label for="product_id">상품번호</label>
-				<input type="text" id="product_id" name="product_id" value="<%=dto.getProductId()%>" readonly/>
+				<input type="text" id="productId" name="productId" value="<%=dto.getProductId()%>" readonly/>
 				<br />
 			</div>
 			<div>
@@ -40,20 +41,20 @@
 			</div>
 			<div>
 				<label for="org_price">판매가 : </label> 
-				<input type="text" id="org_price" name="org_price" value="<%=dto.getOrgPrice()%>">
+				<input type="text" id="orgPrice" name="orgPrice" value="<%=dto.getOrgPrice()%>">
 				<br />
 			</div>
 			<div>
-				<label for="sale_price">할인가격 : </label> 
-				<input type="text" id="sale_price" name="sale_price" value="<%=dto.getSalePrice()%>">
+				<label for="salePrice">할인가격 : </label> 
+				<input type="text" id="salePrice" name="salePrice" value="<%=dto.getSalePrice()%>">
 				<br />
 			</div>
 			<div>
-				<label for="sales_state">상품상태 : </label>
-					<select id="sales_state" name="sales_state" value="<%=dto.getSalesState()%>">
-						<option value="on_sale">판매중</option>
-						<option value="sold_out">품절</option>
-						<option value="sales_end">판매종료</option>
+				<label for="salesState">상품상태 : </label>
+					<select id="salesState" name="salesState" value="<%=dto.getSalesState()%>">
+						<option value="onSale">판매중</option>
+						<option value="soldOut">품절</option>
+						<option value="salesEnd">판매종료</option>
 					</select>
 				<br />
 				<br />

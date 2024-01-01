@@ -1,3 +1,5 @@
+<%@page import="javax.mail.Session"%>
+<%@page import="util.SessionManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
