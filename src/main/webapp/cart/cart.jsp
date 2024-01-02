@@ -1,3 +1,4 @@
+<%@page import="util.SessionManager"%>
 <%@page import="java.util.stream.Collectors"%>
 <%@page import="dao.MemberDao"%>
 <%@page import="dto.MemberDto"%>
@@ -13,7 +14,7 @@
 <%
 	//String id = (String)session.getAttribute("id");
 	String id = "dum1";
-	MemberDto memberDto = MemberDao.getInstance().getData(id);
+	MemberDto memberDto = SessionManager.getMember(request);
 	List<CartItemDto> cartList =CartItemDao.getInstance().getList();
 	if(id!=null){
 		cartList = cartList.stream().filter(c->c.getBuyerId().equals(id)).collect(Collectors.toList());

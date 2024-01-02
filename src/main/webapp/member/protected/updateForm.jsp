@@ -4,8 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String memberId = SessionManager.getInstance().getMemberId(request);
-	MemberDto dto = MemberDao.getInstance().getData(memberId);
+	MemberDto member = SessionManager.getMember(request);
 	String profile = null; // dto.getProfileImage();
 %>
 <!DOCTYPE html>
@@ -13,18 +12,22 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="/Animalls/css/common.css"  rel="stylesheet" />
+<link href="/Animalls/css/bootstrap.css" rel="stylesheet" >
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
-<body>
-	<div class="container">
+<body class="d-flex flex-column">
+    <jsp:include page="/include/navbar.jsp">
+        <jsp:param value="member" name="current"/>
+    </jsp:include>
+	<div class="container flex-grow-1">
 		<h5 class="form-header mt-4">회원정보 수정</h5>
 		
 		<form action="update.jsp" method=post>
 			<!-- 아이디 -->
 			<div class="mb-2">
 				<label class="form-label" for="memberId">아이디</label>
-				<input class="form-control" type="text" name="memberId" id="memberId" value="<%=memberId %>" readonly/>
+				<input class="form-control" type="text" name="memberId" id="memberId" value="<%= member.getMemberId() %>" readonly/>
 			</div>
 			
 			<!-- 비밀번호 -->
@@ -41,7 +44,7 @@
 			<!-- 이름 -->
 			<div class="mb-2">
 				<label class="form-label" for="name">이름</label>
-				<input class="form-control" type="text" name="name" id="name" value="<%=dto.getName() %>" />
+				<input class="form-control" type="text" name="name" id="name" value="<%= member.getName() %>" />
 			</div>
 			
 			<!-- 주소 -->
@@ -59,13 +62,13 @@
 			<!-- 휴대전화 -->
 			<div class="mb-2">
 				<label class="form-label" for="phoneNumber">휴대전화</label>
-				<input class="form-control" type="text" name="phoneNumber" id="phoneNumber" value="<%=dto.getPhoneNumber() %>" />
+				<input class="form-control" type="text" name="phoneNumber" id="phoneNumber" value="<%= member.getPhoneNumber() %>" />
 			</div>
 			
 			<!-- 이메일 -->
 			<div class="mb-2">
 				<label class="form-label" for="email">이메일</label>
-				<input class="form-control" type="text" name="email" id="email" value="<%=dto.getEmail() %>" />
+				<input class="form-control" type="text" name="email" id="email" value="<%= member.getEmail() %>" />
 			</div>
 			
 			<!-- 추가정보 -->
@@ -99,6 +102,9 @@
 		</form>
 	</div>
 	
+    <jsp:include page="/include/footer.jsp">
+        <jsp:param value="member" name="current"/>
+    </jsp:include>
 	<script>
 	    document.getElementById("deleteBtn").addEventListener("click", e => {
 	    	if (confirm("정말 탈퇴하시겠습니까?")) {

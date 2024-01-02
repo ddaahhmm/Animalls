@@ -1,7 +1,6 @@
 package dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,4 +22,12 @@ public class MemberDto {
 	private String email;
 	private boolean emailVerified; 
 	private String registeredDate;
+	
+	public boolean isSeller() {
+		return "seller".equals(role) || isAdmin();
+	}
+	
+	public boolean isAdmin() {
+		return "admin".equals(role);
+	}
 }

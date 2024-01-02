@@ -6,17 +6,12 @@
 <meta charset="UTF-8">
 <title>애니모올즈</title>
 <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link rel="stylesheet" href="/Animalls/css/common.css" />
+<link href="/Animalls/css/bootstrap.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
+
 
 <style>
-	body		{ font-family: 'NanumSquare', sans-serif }
-	.normal		{ font-weight: 400 }
-	.bold		{ font-weight: 700 }
-	.bolder		{ font-weight: 800 }
-	.light		{ font-weight: 300 }
-	
 	.fade-transition {
     transition: all 0.8s ease;
     overflow: hidden;

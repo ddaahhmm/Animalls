@@ -135,14 +135,16 @@ public class NoticeItemDao {
 	}
 	
 	public List<NoticeItemDto> getList(int page) {
-		String sql = "SELECT notice_item_id, writer_id, notice_title, notice_content, created_at, rnum "
+		String sql = "SELECT * "
 					+ "FROM ("
-					+ "		SELECT notice_item_id, writer_id, notice_title, notice_content, created_at, ROWNUM rnum"
-					+ "		FROM NOTICE_ITEM "
-					+ "		ORDER BY notice_item_id DESC "
+					+ "		SELECT result1.*, ROWNUM rnum "
+					+ "		FROM ( "
+					+ "			SELECT notice_item_id, writer_id, notice_title, notice_content, created_at "
+					+ "			FROM NOTICE_ITEM "
+					+ "			ORDER BY notice_item_id DESC "
+					+ "		) result1 "
 					+ ") "
-					+ "WHERE rnum BETWEEN ? AND ? "
-					+ "ORDER BY notice_item_id DESC";
+					+ "WHERE rnum BETWEEN ? AND ? ";
 
 		Connection conn = null; 
 		PreparedStatement pstmt = null;

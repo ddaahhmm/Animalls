@@ -1,3 +1,6 @@
+<%@page import="dto.MemberDto"%>
+<%@page import="dao.MemberDao"%>
+<%@page import="util.SessionManager"%>
 <%@page import="util.URLConverter"%>
 <%@page import="java.io.UnsupportedEncodingException"%>
 <%@page import="java.net.URLEncoder"%>
@@ -5,9 +8,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
-	String userId = "gildong123";
-	String username = "홍길동";
-	String userRank = "브론즈";
+    MemberDto member = SessionManager.getMember(request); 
+     
+	String userId = member.getMemberId();
+	String username = member.getName();
+	String userRank = member.getRank();
 	String nextRank = "실버";
 	int rankUpPrice = 360000;
 	int recentlyUsedPrice = 100;
@@ -17,7 +22,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link href="/Animalls/css/common.css" rel="stylesheet" />
+<link href="/Animalls/css/bootstrap.css" rel="stylesheet" >
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 <style>
@@ -64,7 +70,7 @@
 
 <body>
 	<jsp:include page="/include/navbar.jsp">
-		<jsp:param value="myPage" name="current"/>
+		<jsp:param value="member" name="current"/>
 	</jsp:include>
 	
 	<div class="container my-5">
@@ -119,8 +125,8 @@
 				<div class="flex-grow-1 justify-content-center">
 					<ul class="my-auto">
 						<li class="small">취소 : <a class="text-decoration-none small" href="#">0</a></li>
-		배송				<li class="small">교환 : <a class="text-decoration-none small" href="#">0</a></li>
-			in progress			<li class="small">반품 : <a class="text-decoration-none small" href="#">0</a></li>
+						<li class="small">교환 : <a class="text-decoration-none small" href="#">0</a></li>
+						<li class="small">반품 : <a class="text-decoration-none small" href="#">0</a></li>
 					</ul>
 				</div>
 			</div>
@@ -138,7 +144,7 @@
 
 				<jsp:include page="/include/components/shopblock.jsp">
 				    <jsp:param name="src" value="/Animalls/assets/shop-blocks/2.png"/>
-				    <jsp:param name="href" value="${pageContext.request.contextPath}/member/protected/update_form.jsp" />
+				    <jsp:param name="href" value="${pageContext.request.contextPath}/member/protected/updateForm.jsp" />
 				    <jsp:param name="title" value="<%= URLConverter.encode(\"Profile\") %>"/>
 				    <jsp:param name="subTitle" value="<%= URLConverter.encode(\"회원 정보\") %>"/>
 				    <jsp:param name="description" value="<%= URLConverter.encode(\"회원이신 고객님의 개인정보를<br/> 관리하는 공간입니다.\") %>"/>
@@ -225,7 +231,7 @@
 	</div>
 	
 	<jsp:include page="/include/footer.jsp">
-		<jsp:param value="index" name="current"/>
+		<jsp:param value="member" name="current"/>
 	</jsp:include>
 	
 	

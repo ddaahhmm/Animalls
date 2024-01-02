@@ -1,7 +1,5 @@
 <%@page import="dao.ProductDao"%>
 <%@page import="dto.ProductDto"%>
-<%@page import="dao.UserDao"%>
-<%@page import="dto.UserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

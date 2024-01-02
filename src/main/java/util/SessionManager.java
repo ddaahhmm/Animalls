@@ -2,38 +2,16 @@ package util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import dto.MemberDto;
+
 public class SessionManager {
-	private static SessionManager instance;
+	private SessionManager() {}
 	
-	private SessionManager() { }
-	
-	public static SessionManager getInstance() {
-		if (instance == null) {
-            synchronized (SessionManager.class) {
-                if (instance == null) {
-                    instance = new SessionManager();
-                }
-            }
-        }
-		
-        return instance;
+	public static void setMember(HttpServletRequest request, MemberDto dto) {
+		request.getSession().setAttribute("member", dto);
     }
 	
-	public void setMemberId(HttpServletRequest request, String memberId) {
-		request.getSession().setAttribute("memberId", memberId);
-    }
-	
-	public String getMemberId(HttpServletRequest request) {
-		
-        return (String)request.getSession().getAttribute("memberId");
-    }
-	
-	public void setPassword(HttpServletRequest request, String password) {
-		request.getSession().setAttribute("password", password);
-    }
-	
-	public String getPassword(HttpServletRequest request) {
-		
-        return (String)request.getSession().getAttribute("password");
+	public static MemberDto getMember(HttpServletRequest request) {
+		return (MemberDto)request.getSession().getAttribute("member");
 	}
 }

@@ -1,4 +1,4 @@
-package controller.oauth;
+package servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +21,7 @@ import util.QueryString;
 
 @SuppressWarnings("serial")
 @WebServlet("/oauth/login")
-public class OAuthLoginController extends HttpServlet {
+public class OAuthLoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String code = req.getParameter("code");

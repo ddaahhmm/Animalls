@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +20,61 @@ public class ReviewDao {
 		}
 		return dao;
 	}
+	public List<ReviewDto> getReviewListWithProductId(int start, int end, int productId){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ReviewDto> list = new ArrayList<>();
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "SELECT *"
+					+ " FROM"
+					+ "	(SELECT result1.*, ROWNUM AS rnum"
+					+ "	FROM"
+					+ "		(SELECT review_id, product_id , reviewer_id, content, thumbnail, rating, like_count, created_at, updated_at"
+					+ "		FROM PRODUCT_REVIEW "
+					+ "		WHERE product_id = ?"
+					+ "		ORDER BY review_id DESC) result1)"
+					+ " WHERE rnum BETWEEN ? AND ?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩할 내용이 있으면 여기서 한다.
+			pstmt.setInt(1, productId);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			//query 문 수행하고 결과(ResultSet) 얻어내기
+			rs = pstmt.executeQuery();
+			//반복문 돌면서 
+			while (rs.next()) {
+				ReviewDto dto =new ReviewDto();
+				dto.setReviewId(rs.getInt("review_id"));
+				dto.setProductId(rs.getInt("product_id"));
+				dto.setReviewerId(rs.getString("reviewer_id"));
+				dto.setContent(rs.getString("content"));
+				dto.setThumbnail(rs.getString("thumbnail"));
+				dto.setRating(rs.getInt("rating"));
+				dto.setLikeCount(rs.getInt("like_count"));
+				dto.setCreatedAt(rs.getString("created_at"));
+				dto.setUpdatedAt(rs.getString("updated_at"));
+				list.add(dto);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection 객체의 close() 메소드를 호출하면 Pool 에 반납된다.
+			} catch (Exception e) {
+			}
+		}
+		return list;
+	}
+	
 	public List<ReviewDto> getList(int start, int end){
 		Connection conn = null;
 		PreparedStatement pstmt = null;

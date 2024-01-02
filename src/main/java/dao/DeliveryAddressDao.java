@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import dto.DeliveryAddressDto;
 import util.DbcpBean;
@@ -18,6 +19,34 @@ public class DeliveryAddressDao {
 	}
 	
 	private DeliveryAddressDao() {}
+	
+	int getNextSequence() {
+		Connection conn = null;
+		PreparedStatement pstmt = null ;
+		ResultSet rs = null; 
+	
+		int deliveryId = -1; 
+		try {
+			conn = new DbcpBean().getConn();
+		    String sql = "SELECT delivery_address_seq.nextval as delivery_id FROM DUAL";
+		    pstmt = conn.prepareStatement(sql);
+		    rs = pstmt.executeQuery();
+		    
+	        if (rs.next()) {
+	            deliveryId = rs.getInt("delivery_id");
+	        }
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (pstmt != null) pstmt.close(); 
+				if (conn != null) conn.close();
+			} catch(Exception e){
+			}	
+		}
+		return deliveryId;
+	}
 	
 	public DeliveryAddressDto get(int deliveryId) {
 		String sql = "SELECT postal_address, address, address_detail "
@@ -83,7 +112,7 @@ public class DeliveryAddressDao {
 
 	public boolean insert(DeliveryAddressDto dto) {
 		String sql = "INSERT INTO delivery_address (delivery_id, postal_address, address, address_detail) "
-				+ "VALUES ( delivery_address_seq.NEXTVAL, ?, ?, ?)";
+				+ "VALUES ( ?, ?, ?, ?)";
 		Connection conn = null; 
 		PreparedStatement pstmt = null; 
 		ResultSet rs = null; 
@@ -91,14 +120,17 @@ public class DeliveryAddressDao {
 		
 		try	{
 			conn = new DbcpBean().getConn();
+			
+			
+			int deliveryId = getNextSequence();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getPostalAddress());
-			pstmt.setString(2, dto.getAddress());
-			pstmt.setString(3, dto.getAddressDetail());
+			pstmt.setInt(1, deliveryId);
+			pstmt.setInt(2, dto.getPostalAddress());
+			pstmt.setString(3, dto.getAddress());
+			pstmt.setString(4, dto.getAddressDetail());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				result = true; 
-				int deliveryId = rs.getInt("delivery_id");
+				result = true;
 				dto.setDeliveryId(deliveryId);
 			}
 		} catch(Exception e) {
