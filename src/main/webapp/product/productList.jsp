@@ -28,6 +28,7 @@
   text-align:center;
   	margin-bottom: 100px;
   }
+  
  .menuCategory {
     font-size: 0;
     line-height: 0;
@@ -58,8 +59,6 @@
     background: #f4f4f1;
 }
 
-.menuCategory > li > a:hover {
-}
 
 .menuCategory > li.selected > a {
     font-family: 'AppleGothic-B';
@@ -67,34 +66,6 @@
     background: #ff753f;
 }
 
-.menuCategory > li .count {
-    font-weight: normal;
-}
-
-.menuCategory > li > ul {
-    padding: 6px 0 0 0;
-}
-
-.menuCategory > li > ul > li {
-    margin: 8px 0 0 0;
-    line-height: 14px;
-}
-
-.menuCategory > li > ul > li > a {
-    color: #575a63;
-}
-
-
-
- .menuCategory > li > ul > li > .button {
-    display: inline-block;
-    position: relative;
-    width: 9px;
-    height: 14px;
-    margin: 1px 0 0 3px;
-    vertical-align: top;
-}
- 
 
 	.prdCount{
 		display:block;
@@ -126,10 +97,7 @@
     padding: 10px;
   }
   
-  
-  
-  
-  
+
   .description{
   margin: auto;
   padding:0;
