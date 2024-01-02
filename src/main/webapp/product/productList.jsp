@@ -24,6 +24,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 <style>
+.nonSpace{
+  	margin-bottom:100px;
+  }
 .menuCategory {
     font-size: 0;
     line-height: 0;
@@ -148,7 +151,7 @@
 	<jsp:include page="/include/navbar.jsp"></jsp:include>
     
     <div class="container flex-grow-1 pb-5">
-        <h1 class="my-4">상품 목록</h1>
+        <div class="nonSpace"><span></span></div>
         
     	<div class="category"> 
 			<ul class="menuCategory" >
