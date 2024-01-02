@@ -16,6 +16,7 @@
 	List<ProductOptionDto> optionList = ProductOptionDao.getInstance().getList();
 	
 	List<ProductOptionDto> selected_List = new ArrayList<>();
+
 	
 	
 %>
@@ -188,12 +189,12 @@
 									
 									<td>
 										<span class="quantity">
-											<counter></counter>											</counter>
+											<counter></counter>											
 										</span>
 									</td>
 									
 									<td >
-										<strong >{{menu.price}} </strong><br>
+										<strong>{{menu.price}} </strong><br>
 									</td>
 								</tr>
 						      </tbody>
@@ -532,3 +533,5 @@
 	</jsp:include>
 </body>
 </html>
+
+
