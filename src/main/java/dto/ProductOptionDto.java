@@ -16,4 +16,5 @@ public class ProductOptionDto {
 	private int productId;
 	private String description;
 	private int additionalPrice;
+	private int amount;
 }

@@ -67,6 +67,7 @@ CREATE TABLE PRODUCT_OPTION (
 	product_id		NUMBER(10),
 	description		VARCHAR2(100)	NOT NULL,
 	additional_price	NUMBER(10)		DEFAULT 0,
+	amount				NUMBER(5)		DEFAULT 0,
 	CONSTRAINT fk_prodcut_option_product FOREIGN KEY (product_id)
 	    REFERENCES PRODUCT (product_id)
 	    ON DELETE CASCADE

@@ -27,7 +27,7 @@ public class ProductOptionDao {
 		try {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문
-			String sql = "SELECT option_id, product_id, description, additional_price"
+			String sql = "SELECT option_id, product_id, description, additional_price, amount"
 					+ " FROM PRODUCT_OPTION"
 					+ " ORDER BY option_id DESC";
 			pstmt = conn.prepareStatement(sql);
@@ -42,6 +42,8 @@ public class ProductOptionDao {
 				dto.setProductId(rs.getInt("product_id"));
 				dto.setDescription(rs.getString("description"));
 				dto.setAdditionalPrice(rs.getInt("additional_price"));
+				dto.setAmount(rs.getInt("amount"));
+				
 				list.add(dto);
 			}
 		} catch (Exception e) {
@@ -68,7 +70,7 @@ public class ProductOptionDao {
 		try {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문
-			String sql = "SELECT option_id, product_id, description, additional_price"
+			String sql = "SELECT option_id, product_id, description, additional_price,amount"
 					+ " FROM PRODUCT_OPTION"
 					+ " WHERE option_id = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -82,6 +84,7 @@ public class ProductOptionDao {
 				dto.setProductId(rs.getInt("product_id"));
 				dto.setDescription(rs.getString("description"));
 				dto.setAdditionalPrice(rs.getInt("additional_price"));
+				dto.setAmount(rs.getInt("amount"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,13 +113,46 @@ public class ProductOptionDao {
 			//실행할 sql 문
 			String sql = "INSERT INTO PRODUCT_OPTION"
 					+ " (option_id, product_id, description, additional_price)"
-					+ " VALUES(PRODUCT_OPTION_SEQ.NEXTVAL, ?, ?, ?)";
+					+ " VALUES(PRODUCT_OPTION_SEQ.NEXTVAL, ?, ?, ?,?)";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩 할 내용이 있으면 바인딩
 			pstmt.setInt(1, dto.getProductId());
 			pstmt.setString(2, dto.getDescription());
 			pstmt.setInt(3, dto.getAdditionalPrice());
+			pstmt.setInt(4, dto.getAmount());
 			
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean amountUpdate(int optionId, int amount) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "UPDATE PRODUCT_OPTION"
+					+ " SET amount=?"
+					+ " WHERE option_id=?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩 할 내용이 있으면 바인딩
+			pstmt.setInt(1, amount);
+			pstmt.setInt(2, optionId);
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,7 +180,7 @@ public class ProductOptionDao {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문
 			String sql = "UPDATE PRODUCT_OPTION"
-					+ " SET product_id = ?, description=?, additional_price=?"
+					+ " SET product_id = ?, description=?, additional_price=?, amount=?"
 					+ " WHERE option_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩 할 내용이 있으면 바인딩
@@ -152,7 +188,7 @@ public class ProductOptionDao {
 			pstmt.setString(2, dto.getDescription());
 			pstmt.setInt(3, dto.getAdditionalPrice());
 			pstmt.setInt(4, dto.getOptionId());
-			
+			pstmt.setInt(5, dto.getAmount());
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
