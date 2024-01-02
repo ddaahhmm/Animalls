@@ -9,14 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/upstream/main
 public class ProductOptionDto {
 	private int optionId;
 	private int productId;
 	private String description;
 	private int additionalPrice;
-	private int amount;
 }
