@@ -134,13 +134,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%for(CartItemDto tmp:cartList){ 
+                    <%for (int i=0; i<cartList.size(); i++) {
+                    	CartItemDto tmp = cartList.get(i);
                     	ProductDto productDto = ProductDao.getInstance().getData(tmp.getProductId());
                     	ProductOptionDto optionDto = ProductOptionDao.getInstance().getData(tmp.getOptionId());
-                    	
                     	int price = productDto.getSalesState().equals("on_sale")? productDto.getSalePrice() : productDto.getOrgPrice();
                     	int itemPrice = (price+optionDto.getAdditionalPrice())*tmp.getAmount();
                     	totalPrice += itemPrice;
+                    	String uniqueButtonID = "optBtn" + i;
+                    	String modalBgID = "modalBgID" + i;
                     %>
                     
                     <tr>
@@ -154,17 +156,17 @@
                             <ul>
                                 <li> <strong><a href="${pageContext.request.contextPath}/product/productDetail?productId=<%=tmp.getProductId()%>"><%=productDto.getTitle() %></a></strong></li>
                                 <li>옵션 : <%=optionDto.getDescription() %></li>
-                                <li><button id="optBtn">옵션변경</button></li>
+                                <li><button class="optBtnClass" id="<%=uniqueButtonID %>">옵션변경</button></li>
                             </ul>
                         </td>
                         <td>
                             <span style="display: flex; align-items: center;">
                                 <input type="text" value="<%=tmp.getAmount() %>" readonly>
                                 <div style="display: flex; flex-direction: column; justify-content: center;">
-	                                <a href="${pageContext.request.contextPath}/cart/cartUpdate.jsp?cartItemId=<%=tmp.getCartItemId()%>&amount=<%=tmp.getAmount()+1%>" style="font-size:0px;">
+	                                <a href="${pageContext.request.contextPath}/cart/cartAmountUpdate.jsp?cartItemId=<%=tmp.getCartItemId()%>&amount=<%=tmp.getAmount()+1%>" style="font-size:0px;">
 	                                    <img src="https://img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"/>
 	                                </a>
-	                                <a href="${pageContext.request.contextPath}/cart/cartUpdate.jsp?cartItemId=<%=tmp.getCartItemId()%>&amount=<%=tmp.getAmount()-1%>" style="font-size:0px;">
+	                                <a href="${pageContext.request.contextPath}/cart/cartAmountUpdate.jsp?cartItemId=<%=tmp.getCartItemId()%>&amount=<%=tmp.getAmount()-1%>" style="font-size:0px;">
 	                                    <img src="https://img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"/>
 	                                </a>
                                 </div>
@@ -182,33 +184,39 @@
                             <a href="${pageContext.request.contextPath}/cart/cartDelete.jsp?cartItemId=<%=tmp.getCartItemId()%>">삭제</a>
                         </td>
                     </tr>
-                    <div class="modal--bg hidden">
+                    <div class="modal--bg hidden" id="<%=modalBgID %>">
 				        <div class="modal" style="display:block">
-				            <div class="header">
+				         	<div class="header">
 				                <h3>옵션변경</h3>
 				                <div class="close-area">X</div>
 				            </div>
 				            <div class="content">
-				                <ul class="prdInfo"><li ><%=productDto.getTitle() %></li>
-				                    <li ></li>
+				                <ul class="prdInfo">
+				                	<li ><%=productDto.getTitle() %></li>
 				                </ul>
 				                <div class="prdModify">
 				                    <h4>상품옵션</h4>
-				                    <ul><li style="display:none;"><span>{$option_name}</span> {$form.option_value}</li>
-				                        <li class="ec-basketOptionModifyLayer-options"><span>같이구매하기</span>
-				                            <span><select  option_title="같이구매하기"  name="option1" id="product_option_id1" class="ProductOption0" option_style="select" required="true">
-				                                <option value="*" selected="" link_image="">- [필수] 같이구매하기 선택 -</option>
-				                                
-				                                
-				                            </select></span>
-				                        <li style="display:none;"><span>{$option_name}</span> {$form.option_value}</li>
-				                    </ul>
-				                </div>
-				            </div>
-				            <div class="button">
-				                <a href="#none">추가</a>
-				                <a href="#none">변경</a>
-				            </div>
+					                    <ul>
+					                        <li><span>같이구매하기</span>
+					                            <span><select  option_title="같이구매하기"  name="option" id="product_option" class="ProductOption0" option_style="select" required="true" onchange="change()">
+					                                <option value="*" >- [필수] 같이구매하기 선택 -</option>
+					                                <option disabled>---------------</option>
+					                                <%List<ProductOptionDto> optionList = ProductOptionDao.getInstance().getList();
+					                                	for(ProductOptionDto opt : optionList){
+					                                		if(opt.getProductId()==productDto.getProductId()||opt.getProductId()==0){%>
+					                                			<option value="<%=opt.getOptionId()%>"><%=opt.getDescription()%> (+ <%=opt.getAdditionalPrice()%>)</option>
+					                                	<%}} %>
+					                            </select></span></li> 
+					                    </ul>
+					               </div>
+					           </div>
+					           <div class="button">
+					           	<form action="${pageContext.request.contextPath}/cart/cartOptionUpdate.jsp">
+					           		<input type="hidden" name="cartItemId" value="<%=tmp.getCartItemId()%>" />
+					           		<input type="hidden" name="optionId" value="" id="optionId"/>
+					                <button type="submit" >변경</button>
+					            </form>    
+					           </div>
 				        </div>
 				    </div>
                     <%} %>
@@ -257,30 +265,40 @@
 	
 	        }
 	    })
-       function check(checkBox){
-       const isChecked = checkBox.checked;
-       if(isChecked){
-           checkBox.checked=false;
-       }else{
-           checkBox.checked=true;
-       }
+		function check(checkBox){
+			const isChecked = checkBox.checked;
+			if(isChecked){
+				checkBox.checked=false;
+			} else {
+	            checkBox.checked=true;
+	        }
 		}
 	
-	 //옵션변경 모달
-        const modal = document.querySelector('.modal--bg');
+		//옵션변경 모달
+		document.querySelectorAll('.optBtnClass').forEach((button, index) => {
+            button.addEventListener("click", () => {
+            	const modalBgID = 'modalBgID'+ index;
+                const modal = document.getElementById(modalBgID);
+                modal.classList.remove('hidden');
+                modal.classList.add('visible');
+            });
+        });
 
-        function showModal(){
-            modal.classList.remove('hidden');
-            modal.classList.add('visible');
+        document.querySelectorAll('.close-area').forEach((closeBtn) => {
+            closeBtn.addEventListener("click", (event) => {
+                const modal = event.target.closest('.modal--bg');
+                modal.classList.add('hidden');
+                modal.classList.remove('visible');
+            });
+        });
+        
+	 	//option변경
+	       
+        function change(){
+        	let option = document.getElementById('product_option');
+        	let optValue = option.options[option.selectedIndex].value;
+        	document.getElementById("optionId").value=optValue;
         }
-        function closeModal(){
-            modal.classList.add('hidden');
-            modal.classList.remove('visible');
-        }
-        document.querySelector('#optBtn').addEventListener("click", showModal );
-        document.querySelector('.close-area').addEventListener("click", closeModal);
-  
-	    
 	</script>
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 </body>

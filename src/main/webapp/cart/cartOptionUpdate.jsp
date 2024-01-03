@@ -1,11 +1,13 @@
+<%@page import="dto.CartItemDto"%>
 <%@page import="dao.CartItemDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
-	int optionId = Integer.parseInt(request.getParameter("optionId"));
-	
-	boolean isSuccess = CartItemDao.getInstance().optUpdate(cartItemId, optionId);
+	int amount = Integer.parseInt(request.getParameter("amount"));
+	if(amount>0){
+	CartItemDao.getInstance().amountUpdate(cartItemId, amount);
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -15,9 +17,8 @@
 </head>
 <body>
 	<script>
-	<%if(isSuccess){ %>
 		location.href="${pageContext.request.contextPath}/cart/cart.jsp";
-	<%} %>
 	</script>
+	
 </body>
 </html>

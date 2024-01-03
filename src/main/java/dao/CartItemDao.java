@@ -20,6 +20,40 @@ public class CartItemDao {
 		return dao;
 	}
 	
+	public boolean optUpdate(int cartItemId, int optionId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "UPDATE CART_ITEM"
+					+ " SET option_id=?"
+					+ " WHERE cart_item_id=?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩 할 내용이 있으면 바인딩
+			pstmt.setInt(1, optionId);
+			pstmt.setInt(2, cartItemId);
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	public boolean amountUpdate(int cartItemId, int amount) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
