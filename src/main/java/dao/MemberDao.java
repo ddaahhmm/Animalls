@@ -31,21 +31,18 @@ public class MemberDao {
 		try {
 			conn = new DbcpBean().getConn();
 			String sql = "INSERT INTO MEMBER" + 
-					" (member_id, delivery_id, password, name, nickname, role, phone_number, rank, profile_image, email, email_verified, registered_date)" + 
-					" VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE)";
+					" (member_id, delivery_id, password, name, nickname, phone_number, profile_image, email, email_verified, registered_date)" + 
+					" VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getMemberId());
 			pstmt.setInt(2, dto.getDeliveryId());
 			pstmt.setString(3, dto.getPassword());
 			pstmt.setString(4, dto.getName());
 			pstmt.setString(5, dto.getNickname());
-			pstmt.setString(6, dto.getRole());
-			pstmt.setString(7, dto.getPhoneNumber());
-			pstmt.setString(8, dto.getRank());
-			pstmt.setString(9, dto.getProfileImage());
-			pstmt.setString(10, dto.getEmail());
-			pstmt.setBoolean(11, dto.isEmailVerified());
-			pstmt.setString(12, dto.getRegisteredDate());
+			pstmt.setString(6, dto.getPhoneNumber());
+			pstmt.setString(7, dto.getProfileImage());
+			pstmt.setString(8, dto.getEmail());
+			pstmt.setBoolean(9, dto.isEmailVerified());
 			rowCount = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -187,6 +184,44 @@ public class MemberDao {
 	    }
 		
 		return list;
+	}
+	
+	// 조회 by 이메일
+	public MemberDto getEmailData(String email) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberDto dto = null;
+		try {
+			conn = new DbcpBean().getConn();
+			String sql = "SELECT delivery_id, password, nickname, name, role, phone_number, rank, profile_image, email, email_verified, registered_date" + 
+					" FROM MEMBER" + 
+					" WHERE email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				dto = new MemberDto();
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setDeliveryId(rs.getInt("delivery_id"));
+	            dto.setPassword(rs.getString("password"));
+	            dto.setNickname(rs.getString("nickname"));
+	            dto.setName(rs.getString("name"));
+	            dto.setRole(rs.getString("role"));
+	            dto.setPhoneNumber( rs.getString("phone_number"));
+	            dto.setRank(rs.getString("rank"));
+	            dto.setProfileImage(rs.getString("profile_image"));
+	            dto.setEmail(email);
+	            dto.setEmailVerified(rs.getBoolean("email_verified"));
+	            dto.setRegisteredDate(rs.getString("registered_date"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeResource(conn, pstmt, rs);
+		}
+		
+		return dto;
 	}
 	
 	private void closeResource(Connection conn, PreparedStatement pstmt) {

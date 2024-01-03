@@ -54,11 +54,51 @@ public class ProductOptionDao {
 					pstmt.close();
 				if (conn != null)
 					conn.close(); //Connection 객체의 close() 메소드를 호출하면 Pool 에 반납된다.
-				} catch (Exception e) {
-				}
+			} catch (Exception e) {
 			}
-			return list;
 		}
+		return list;
+	}
+	
+	public List<ProductOptionDto> getListByProudctId(int productId){
+		List<ProductOptionDto> list = new ArrayList<ProductOptionDto>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "SELECT option_id, product_id, description, additional_price"
+					+ " FROM PRODUCT_OPTION "
+					+ " WHERE product_id = ?"
+					+ " ORDER BY option_id DESC";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productId);
+			rs = pstmt.executeQuery();
+			//반복문 돌면서 
+			while (rs.next()) {
+				ProductOptionDto dto = new ProductOptionDto();
+				dto.setOptionId(rs.getInt("option_id"));
+				dto.setProductId(rs.getInt("product_id"));
+				dto.setDescription(rs.getString("description"));
+				dto.setAdditionalPrice(rs.getInt("additional_price"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close(); //Connection 객체의 close() 메소드를 호출하면 Pool 에 반납된다.
+			} catch (Exception e) {
+			}
+		}
+		return list;
+	}
 	
 	public ProductOptionDto getData(int optionId) {
 		ProductOptionDto dto = new ProductOptionDto();

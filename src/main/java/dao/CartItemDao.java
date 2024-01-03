@@ -20,6 +20,73 @@ public class CartItemDao {
 		return dao;
 	}
 	
+	public boolean optUpdate(int cartItemId, int optionId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "UPDATE CART_ITEM"
+					+ " SET option_id=?"
+					+ " WHERE cart_item_id=?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩 할 내용이 있으면 바인딩
+			pstmt.setInt(1, optionId);
+			pstmt.setInt(2, cartItemId);
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public boolean amountUpdate(int cartItemId, int amount) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rowCount = 0;
+		try {
+			conn = new DbcpBean().getConn();
+			//실행할 sql 문
+			String sql = "UPDATE CART_ITEM"
+					+ " SET amount=?"
+					+ " WHERE cart_item_id=?";
+			pstmt = conn.prepareStatement(sql);
+			//? 에 바인딩 할 내용이 있으면 바인딩
+			pstmt.setInt(1, amount);
+			pstmt.setInt(2, cartItemId);
+			rowCount = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+		if (rowCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean update(CartItemDto dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -107,7 +174,7 @@ public class CartItemDao {
 			conn = new DbcpBean().getConn();
 			//실행할 sql 문
 			String sql = "DELETE FROM CART_ITEM"
-					+ " WHERE cartItemId=?";
+					+ " WHERE cart_item_id=?";
 			pstmt = conn.prepareStatement(sql);
 			//? 에 바인딩 할 내용이 있으면 바인딩
 			pstmt.setInt(1, cartItemId);
@@ -170,9 +237,9 @@ public List<CartItemDto> getList(){
 			//DbcpBean() 객체를 이용해서 Connection 객체 하나 얻어내기 (Connection Pool 에서 하나 꺼내오기)
 			conn=new DbcpBean().getConn();
 			//실행할 sql 문
-			String sql="SELECT buyer_id,product_id,option_id,amount"+
+			String sql="SELECT cart_item_id, buyer_id,product_id,option_id,amount"+
 			 	" FROM CART_ITEM"+
-				" ORDER BY product_id DESC";
+				" ORDER BY cart_item_id DESC";
 			pstmt=conn.prepareStatement(sql);
 			//query 문 수행하고 결과(ResultSet) 얻어내기
 			rs=pstmt.executeQuery();
@@ -180,6 +247,7 @@ public List<CartItemDto> getList(){
 			while(rs.next()){
 				
 				CartItemDto dto=new CartItemDto();
+				dto.setCartItemId(rs.getInt("cart_item_id"));
 				dto.setBuyerId(rs.getString("buyer_id"));
 				dto.setProductId(rs.getInt("product_id"));
 				dto.setOptionId(rs.getInt("option_id"));

@@ -1,18 +1,14 @@
 package dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class MemberDto {
 	private String memberId; 
 	private int deliveryId; 
@@ -26,4 +22,12 @@ public class MemberDto {
 	private String email;
 	private boolean emailVerified; 
 	private String registeredDate;
+	
+	public boolean isSeller() {
+		return "seller".equals(role) || isAdmin();
+	}
+	
+	public boolean isAdmin() {
+		return "admin".equals(role);
+	}
 }

@@ -6,17 +6,12 @@
 <meta charset="UTF-8">
 <title>애니모올즈</title>
 <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<link rel="stylesheet" href="/Animalls/css/common.css" />
+<link href="/Animalls/css/bootstrap.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
+
 
 <style>
-	body		{ font-family: 'NanumSquare', sans-serif }
-	.normal		{ font-weight: 400 }
-	.bold		{ font-weight: 700 }
-	.bolder		{ font-weight: 800 }
-	.light		{ font-weight: 300 }
-	
 	.fade-transition {
     transition: all 0.8s ease;
     overflow: hidden;
@@ -38,7 +33,7 @@
 	</jsp:include>
 	
 	<main>
-	  <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+	  <div id="myCarousel" class="carousel slide mb-6 mt-4" data-bs-ride="carousel">
 	    <div class="carousel-indicators">
 	      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 	      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -46,34 +41,19 @@
 	    </div>
 	    <div class="carousel-inner">
 	      <div class="carousel-item active">
-	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-	        <div class="container">
-	          <div class="carousel-caption text-start">
-	            <h1>Example headline.</h1>
-	            <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
-	            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
-	          </div>
-	        </div>
+	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+	        	<image href="/Animalls/assets/main/img01.png"  width="100%" height="100%"></image>
+	        </svg>
 	      </div>
 	      <div class="carousel-item">
-	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-	        <div class="container">
-	          <div class="carousel-caption">
-	            <h1>Another example headline.</h1>
-	            <p>Some representative placeholder content for the second slide of the carousel.</p>
-	            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
-	          </div>
-	        </div>
+	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+	        	<image href="/Animalls/assets/main/img02.png"  width="100%" height="100%"></image>
+	        </svg>
 	      </div>
 	      <div class="carousel-item">
-	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-	        <div class="container">
-	          <div class="carousel-caption text-end">
-	            <h1>One more for good measure.</h1>
-	            <p>Some representative placeholder content for the third slide of this carousel.</p>
-	            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-	          </div>
-	        </div>
+	        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+	        <image href="/Animalls/assets/main/img03.png"  width="100%" height="100%"></image>
+	        </svg>
 	      </div>
 	    </div>
 	    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
@@ -143,18 +123,15 @@
 	  </div>
 	  
 	<div id="slider">  
-	  <div class="slider">
-	    <ul class="slides" :style="{left:-width*current+'px'}">
-	      <li v-for="(slide,i) in slides">
-	        <img :src="slide" alt="">
-	      </li>
-	    </ul>
-	    <ul class="bullets">
-	      <li v-for="(slide,i) in slides" @click="selectSlide(i)" v-html="i==current ? '&#9679;' : '&omicron;'"></li>
-	    </ul>
-	    <a class="prev" href="#" @click.prevent="prevSlide">&#x25C0;</a>
-	    <a class="next" href="#" @click.prevent="nextSlide">&#x25B6;</a>
-	  </div>
+	  <div class="wrapper">
+            <div class="poligon">
+                 
+            </div>
+        </div>
+        <div class="navg">
+            <button id="leftBtn" class="btn btn-outline-light">&larr;</button>
+            <button id="rightBtn" class="btn btn-outline-light">&rarr;</button>
+        </div>
 	</div>
 		
 	</main>
@@ -163,59 +140,65 @@
 		<jsp:param value="index" name="current"/>
 	</jsp:include>
 	
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script>
-    new Vue({
-    	  el:'#slider',
-    	  data: {       
-    	    slides: [
-    	      '/Animalls/assets/slider/slider1.png', 
-    	      '/Animalls/assets/slider/slider2.png',
-    	      '/Animalls/assets/slider/slider3.png',
-    	      '/Animalls/assets/slider/slider4.png',
-    	      '/Animalls/assets/slider/slider5.png',
-    	      '/Animalls/assets/slider/slider1.png', 
-    	      '/Animalls/assets/slider/slider2.png',
-    	      '/Animalls/assets/slider/slider3.png',
-    	      '/Animalls/assets/slider/slider4.png',
-    	      '/Animalls/assets/slider/slider5.png',
-    	    ],
-    	    current: 0,
-    	    width: 150,
-    	    timer: 0,
-    	  },
-    	  methods: {
-    	    nextSlide: function() {
-    	      this.current++;
-    	      if (this.current >= this.slides.length)
-    	        this.current = 0;
-    	      this.resetPlay();
-    	    },
-    	    prevSlide: function() {
-    	      this.current--;
-    	      if (this.current < 0)
-    	        this.current = this.slides.length - 1;
-    	      this.resetPlay();
-    	    },
-    	    selectSlide: function(i) {
-    	      this.current = i;
-    	      this.resetPlay();
-    	    },
-    	    resetPlay: function() {
-    	      clearInterval(this.timer);
-    	      this.play();
-    	    },
-    	    play: function() {
-    	      let app = this;
-    	      this.timer = setInterval(function() {
-    	        app.nextSlide();
-    	      }, 2000);
-    	    }
-    	  },
-    	  created: function() {
-    	    this.play();
-    	  }
-    	});
-    </script>
+	<script>
+        //n 각형의 폭을 함수에 전달하면 div 를 배치할때 rotateY 값과 translateZ 가 Object 로 리턴되는 함수 
+        function getAngleNtz(n, width) {
+            var angle = Math.round(360 / n);
+            var tz = Math.round((width / 2) / Math.tan((angle * Math.PI) / (2 * 180)));
+            var obj = {
+                angle: angle,
+                tz: tz
+            };
+            return obj;
+        }
+
+        //n각형
+        const n=12;
+        //div 의 width
+        const width=400;
+        // 6 각형 폭은 400px 인 경우 
+        const obj=getAngleNtz(n, width);
+        //배치하면서 회전시킬 각도
+        const angle=obj.angle;
+        //배치하면서 z 축 방향으로 평행이동 해야 하는 값
+        const tz=obj.tz;
+
+
+        // 만들어야 할 div 가 n 개 이기 때문에 반복문 n번 돌기
+        for(let i=0; i<n; i++){
+            //div 를 만들어서 
+            const div=document.createElement("div");
+            //innerText 를 출력하고 
+            div.innerHTML="<img src='/Animalls/assets/slider/slider"+(i+1)+".png'></img>";
+            //.poligon 에 추가하기
+            document.querySelector(".poligon").append(div);
+        }
+		
+        document.querySelector(".poligon").style.transform="translateZ(-"+tz+"px)";
+
+        // .poligon 안에 있는 모든 div 의 참조값을 배열로 얻어내기
+        const divs=document.querySelectorAll(".poligon div");
+
+        //반복문 돌면서 모든 div 에 transform 적용하기
+        for(let i=0; i<divs.length; i++){
+            let rotate = i*angle;
+            divs[i].style.transform="rotateY("+rotate+"deg) translateZ("+tz+"px)";
+        }
+
+        // y 축 기준 회전하는 값을 저장할 변수 선언하고 초기값 0 대입
+        let rY=0;
+
+        document.querySelector("#leftBtn").addEventListener("click", ()=>{
+            rY -= angle;
+            document.querySelector(".poligon")
+                .style.transform="translateZ(-"+tz+"px) rotateY("+rY+"deg)";
+        });
+
+        document.querySelector("#rightBtn").addEventListener("click", ()=>{
+            rY += angle;
+            document.querySelector(".poligon")
+            	.style.transform="translateZ(-"+tz+"px) rotateY("+rY+"deg)";
+        });
+    </script>    
 </body>
 </html>

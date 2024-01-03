@@ -1,0 +1,23 @@
+@charset "UTF-8";
+@import url('//cdn.jsdelivr.net/gh/snz-hayden/toolo/fonts/nanum_square/nanum_square.css');
+
+html, body {
+	height: 100%;
+}
+
+input[type=password] {
+	/** Nanum Sqaure issue, password character isn't showing **/
+    font-family: sans-serif;
+    &::placeholder {
+        font-family: "NanumSquare";
+    }
+}
+
+* { font-family: 'Nanum Square', sans-serif;}
+
+
+
+.normal		{ font-weight: 400 }
+.bold		{ font-weight: 700 }
+.bolder		{ font-weight: 800 }
+.light		{ font-weight: 300 }
