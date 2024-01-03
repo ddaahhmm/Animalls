@@ -53,6 +53,9 @@
     border: none;
 }
 
+.menu {
+	width:100%;
+}
 
 </style>
 </head>
@@ -151,24 +154,47 @@
                 </div>
                 
                 <div class="d-flex justify-content-around">
-                    <button class="btn btn-outline-primary flex-grow-1 py-2 mx-1">장바구니</button>
+        
+                    
+                    <form action="${pageContext.request.contextPath}/cart/cartInsert.jsp" method="post">
+                       <input type="hidden" name="productId" value="<%=dto.getProductId() %>" />
+                       <div v-for="item in choosed">
+                          <input type="hidden" name="id" :value="item.id"/>
+                          <input type="hidden" name="description" :value="item.description"/>
+                          <input type="hidden" name="additional" :value="item.additional"/>
+                          <input type="hidden" name="count" :value="item.count"/>
+                          <input type="hidden" name="price" :value="item.price" />
+                       </div>
+                      
+                       <button class="btn btn-outline-primary flex-grow-1 py-2 mx-1" type="submit">장바구니</button>
+                   </form>
+                    
                     <button class="btn btn-primary flex-grow-1 py-2 mx-1">구매하기</button>
                 </div>
             </div>
         </div>
-    
+			    <div class="menu"> 
+						<ul class="menuCategory nav nav-tabs" >
+			                <li class="nav-item"><a class="nav-link" href="#menu-detail">상세정보</a></li>
+							<li class="nav-item"><a class="nav-link" href="#menu-review">리뷰</a></li>
+							<li class="nav-item"><a class="nav-link" href="#menu-qna">상품 QnA</a></li>
+							<li class="nav-item"><a class="nav-link" href="#menu-info">상품구매안내</a></li>
+						</ul>
+			    	</div>
+			    
         <div style="margin-top: 120px;">
             <div>
-                <h3 class="fw-bold my-2 py-2">상세 정보</h3>
+                <h3 class="fw-bold my-2 py-2"><a id="menu-detail">상세 정보</a></h3>
                 <hr />
                 <div class="d-flex flex-column align-items-center" style="min-height: 300px;">
                     <%= dto.getDescription() %>
+                    <p><img src="https://okdoctordog.com/openImg/2022/notice/notice_all_officialmark.png"></p>
                 </div>
             </div>
             
             
             <div>
-                <h3 class="fw-bold my-2 py-2">리뷰 ({{review_stat.total_count}})</h3>
+                <h3 class="fw-bold my-2 py-2 "><a id="menu-review">리뷰 ({{review_stat.total_count}})</a></h3>
                 <hr />
 
                 <div id="review-overview" class="d-flex" style="min-height: 300px;">
@@ -245,10 +271,19 @@
             </div>
             
            <div>
-                <h3 class="fw-bold my-2 py-2">상품 Q&A ({{qnas.length}})</h3>
+                <h3 class="fw-bold my-2 py-2"><a id="menu-qna">상품 Q&A ({{qnas.length}})</a></h3>
                 <hr />
                 <div class="d-flex flex-column" style="min-height: 300px;"></div>
             </div>
+            
+            <div>
+                <h3 class="fw-bold my-2 py-2"><a id="menu-info">상품구매안내</a></h3>
+                <hr />
+                <p><img src="https://okdoctordog.com/web/upload/NNEditor/20220721/692a3b704511e13986863c6163bfad5f.png"></p>
+               
+                <div class="d-flex flex-column" style="min-height: 300px;"></div>
+            </div>
+            
         </div>
             
 
